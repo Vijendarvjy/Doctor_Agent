@@ -23,7 +23,7 @@ client = Groq(
 )
 
 # Define the Llama model to use
-LLAMA_MODEL = "openai/gpt-oss-120b" # Updated to a supported Llama model, e.g., "llama3-70b-8192"
+LLAMA_MODEL = "meta-llama/llama-prompt-guard-2-86m" # Updated to a supported Llama model, e.g., "llama3-70b-8192"
 
 print(f"Groq client initialized with model: {LLAMA_MODEL}")"
 try:
