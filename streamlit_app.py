@@ -5,7 +5,7 @@ from groq import Groq
 # LOAD API KEY (SECURE)
 # -------------------------------
 try:
-    GROQ_API_KEY = st.secrets["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""]
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 except KeyError:
     st.error("❌ GROQ_API_KEY not found in Streamlit secrets.")
     st.stop()
