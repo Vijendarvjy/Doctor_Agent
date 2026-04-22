@@ -5,7 +5,7 @@ from groq import Groq
 
 # Load Groq API key from Streamlit secrets
 # You need to set this in your Streamlit Cloud app's secrets:
-GROQ_API_KEY="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"
+
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -15,7 +15,7 @@ load_dotenv()
 # Get Groq API key from environment variables or Colab secrets
 # If using Colab secrets, uncomment the line below and name your secret 'GROQ_API_KEY'
 # GROQ_API_KEY = os.environ.get('GROQ_API_KEY') or userdata.get('GROQ_API_KEY')
-#GROQ_API_KEY = "apikey"
+GROQ_API_KEY="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"
 
 # Initialize the Groq client
 client = Groq(
