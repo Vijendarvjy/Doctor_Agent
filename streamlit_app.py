@@ -13,7 +13,7 @@ except KeyError:
     st.stop() # Stop the app if API key is missing
 
 # Define the Llama model to use
-LLAMA_MODEL = "llama-3.3-70b-versatile" # Ensure this model is supported by Groq
+LLAMA_MODEL = "openai/gpt-oss-120b" # Ensure this model is supported by Groq
 
 # Initialize the Groq client
 client = Groq(api_key=GROQ_API_KEY)
