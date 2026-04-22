@@ -1,0 +1,6 @@
+streamlit
+groq
+python-dotenv
+
+# You can also install these directly in Colab by uncommenting the line below
+# !pip install streamlit groq python-dotenv
