@@ -25,7 +25,7 @@ client = Groq(
 # Define the Llama model to use
 LLAMA_MODEL = "meta-llama/llama-prompt-guard-2-86m" # Updated to a supported Llama model, e.g., "llama3-70b-8192"
 
-print(f"Groq client initialized with model: {LLAMA_MODEL}")"
+print(f"Groq client initialized with model: {LLAMA_MODEL}")
 try:
     GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 except KeyError:
