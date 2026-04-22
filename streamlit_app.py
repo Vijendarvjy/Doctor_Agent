@@ -5,7 +5,27 @@ from groq import Groq
 
 # Load Groq API key from Streamlit secrets
 # You need to set this in your Streamlit Cloud app's secrets:
-# GROQ_API_KEY="your_groq_api_key_here"
+# GROQ_API_KEY="import os
+from dotenv import load_dotenv
+from groq import Groq
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get Groq API key from environment variables or Colab secrets
+# If using Colab secrets, uncomment the line below and name your secret 'GROQ_API_KEY'
+# GROQ_API_KEY = os.environ.get('GROQ_API_KEY') or userdata.get('GROQ_API_KEY')
+#GROQ_API_KEY = "apikey"
+
+# Initialize the Groq client
+client = Groq(
+    api_key=GROQ_API_KEY,
+)
+
+# Define the Llama model to use
+LLAMA_MODEL = "openai/gpt-oss-120b" # Updated to a supported Llama model, e.g., "llama3-70b-8192"
+
+print(f"Groq client initialized with model: {LLAMA_MODEL}")"
 try:
     GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 except KeyError:
