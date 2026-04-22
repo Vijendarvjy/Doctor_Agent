@@ -1,83 +1,68 @@
-
 import streamlit as st
-import os
 from groq import Groq
 
-# Load Groq API key from Streamlit secrets
-# You need to set this in your Streamlit Cloud app's secrets:
-
-from dotenv import load_dotenv
-from groq import Groq
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Get Groq API key from environment variables or Colab secrets
-# If using Colab secrets, uncomment the line below and name your secret 'GROQ_API_KEY'
-# GROQ_API_KEY = os.environ.get('GROQ_API_KEY') or userdata.get('GROQ_API_KEY')
-GROQ_API_KEY="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"
-
-# Initialize the Groq client
-client = Groq(
-    api_key=GROQ_API_KEY,
-)
-
-# Define the Llama model to use
-LLAMA_MODEL = "meta-llama/llama-prompt-guard-2-86m" # Updated to a supported Llama model, e.g., "llama3-70b-8192"
-
-print(f"Groq client initialized with model: {LLAMA_MODEL}")
+# -------------------------------
+# LOAD API KEY (SECURE)
+# -------------------------------
 try:
-    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+    GROQ_API_KEY = st.secrets["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""]
 except KeyError:
-    st.error("GROQ_API_KEY not found in Streamlit secrets. Please add it to your app's secrets.")
-    st.stop() # Stop the app if API key is missing
+    st.error("❌ GROQ_API_KEY not found in Streamlit secrets.")
+    st.stop()
 
-# Define the Llama model to use
-LLAMA_MODEL = "openai/gpt-oss-120b" # Ensure this model is supported by Groq
-
-# Initialize the Groq client
+# -------------------------------
+# INIT CLIENT
+# -------------------------------
 client = Groq(api_key=GROQ_API_KEY)
 
+# Supported model
+LLAMA_MODEL = "meta-llama/llama-prompt-guard-2-86m"
+
+# -------------------------------
+# FUNCTION
+# -------------------------------
 def generate_groq_response(user_message):
-    """
-    Queries the Groq model with a user's health inquiry and returns the response.
-
-    Args:
-        user_message (str): The user's health-related question or statement.
-
-    Returns:
-        str: The model's response to the inquiry.
-    """
     try:
         chat_completion = client.chat.completions.create(
             messages=[
-                {
-                    "role": "user",
-                    "content": user_message,
-                }
+                {"role": "system", "content": "You are a helpful medical assistant. Provide safe, general health guidance. Avoid diagnosis."},
+                {"role": "user", "content": user_message}
             ],
             model=LLAMA_MODEL,
         )
         return chat_completion.choices[0].message.content
     except Exception as e:
-        return f"An error occurred: {e}"
+        return f"❌ Error: {e}"
 
-# Streamlit App UI
-st.set_page_config(page_title="AI Medical Assistant powered by Groq")
+# -------------------------------
+# UI
+# -------------------------------
+st.set_page_config(page_title="AI Medical Assistant", page_icon="🩺")
+
 st.title("🩺 AI Medical Assistant")
-st.write("Ask me any health-related questions, and I'll do my best to provide helpful information (but remember, I'm an AI, not a doctor!).")
+st.write(
+    "Ask health-related questions. This tool provides general guidance only."
+)
 
-# User input
-user_query = st.text_area("Your health inquiry:", "I have a persistent cough and feel very tired. What could be causing this, and what over-the-counter medications might help?")
+user_query = st.text_area(
+    "Your health inquiry:",
+    "I have a persistent cough and feel very tired. What could be causing this?"
+)
 
 if st.button("Get Advice"):
-    if not user_query:
-        st.warning("Please enter your health inquiry.")
+    if not user_query.strip():
+        st.warning("⚠️ Please enter your health inquiry.")
     else:
-        with st.spinner("Getting advice from the AI medical assistant..."):
+        with st.spinner("Analyzing your symptoms..."):
             response = generate_groq_response(user_query)
-            st.info("AI Response:")
+            st.success("AI Response")
             st.write(response)
 
+# -------------------------------
+# DISCLAIMER
+# -------------------------------
 st.markdown("---")
-st.markdown("Disclaimer: This AI medical assistant is for informational purposes only and should not be considered medical advice. Always consult with a qualified healthcare professional for any health concerns.")
+st.warning(
+    "⚠️ This AI assistant is for informational purposes only and not medical advice. "
+    "Consult a qualified doctor for diagnosis or treatment."
+)
